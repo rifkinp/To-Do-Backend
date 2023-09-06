@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "rzgdssfw",
+    "password": "IJgXTZcfoeXg6LkIuDGO6S0PvcsZ-lrC",
+    "database": "rzgdssfw",
+    "host": "satao.db.elephantsql.com",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "rzgdssfw",
+    "password": "IJgXTZcfoeXg6LkIuDGO6S0PvcsZ-lrC",
+    "database": "rzgdssfw",
+    "host": "satao.db.elephantsql.com",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "rzgdssfw",
+    "password": "IJgXTZcfoeXg6LkIuDGO6S0PvcsZ-lrC",
+    "database": "rzgdssfw",
+    "host": "satao.db.elephantsql.com",
+    "dialect": "postgres"
+  }
+}
