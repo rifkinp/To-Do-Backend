@@ -1,15 +1,21 @@
 const jwt = require('jsonwebtoken');
 
 const jwtMiddleware = (req, res, next) => {
-  const token = req.header('Authorization');
-  if (!token) return res.status(401).send('Access Denied');
+  const authHeader = req.headers.authorization;
 
-  try {
-    const verified = jwt.verify(token, process.env.SECRET_KEY);
-    req.user = verified;
-    next();
-  } catch (err) {
-    res.status(400).send('Invalid Token');
+  if (authHeader) {
+    const token = authHeader.split(' ')[1];
+
+    jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
+      if (err) {
+        return res.sendStatus(403);
+      }
+
+      req.user = user;
+      next();
+    });
+  } else {
+    res.sendStatus(401);
   }
 };
 
