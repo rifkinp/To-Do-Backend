@@ -5,7 +5,7 @@ class TodoModel {
     const newTodo = await db.Todo.create({
       task,
       userId,
-      completed: false
+      completed: false,
     });
     return newTodo;
   }
@@ -14,8 +14,32 @@ class TodoModel {
     return db.Todo.findAll();
   }
 
-  async updateTodo(id, task, completed) {
-    return db.Todo.update({ task, completed }, { where: { id } });
+  async findUserTask(userId) {
+    try {
+      const todos = await db.Todo.findAll({
+        where: {
+          userId: userId,
+        },
+      });
+      return todos;
+    } catch (error) {
+      console.error('Error in findUserTask:', error);
+      throw error;
+    }
+  }
+
+  async updateTodo(id, task) {
+    const [updatedRows, [updatedTodo]] = await db.Todo.update(
+      { task },
+      {
+        where: { id },
+        returning: true,
+      },
+    );
+    if (updatedRows === 1) {
+      return updatedTodo;
+    }
+    return null;
   }
 
   async deleteTodo(id) {

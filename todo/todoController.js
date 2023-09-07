@@ -22,13 +22,13 @@ class TodoController {
     }
   };
 
-  // Update a Todo
+  // Update Todo
   updateTodo = async (req, res) => {
     try {
-      const { id, task, completed } = req.body;
-      const updatedTodo = await TodoModel.updateTodo(id, task, completed);
-      if (updatedTodo[0] === 1) {
-        res.json({ message: 'Todo updated successfully' });
+      const { id, task } = req.body;
+      const updatedTodo = await TodoModel.updateTodo(id, task);
+      if (updatedTodo) {
+        res.json({ message: 'Todo updated successfully', todo: updatedTodo });
       } else {
         res.status(404).json({ message: 'Todo not found' });
       }
@@ -41,6 +41,7 @@ class TodoController {
   deleteTodo = async (req, res) => {
     try {
       const { id } = req.body;
+      console.log(id);
       const deleted = await TodoModel.deleteTodo(id);
       if (deleted === 1) {
         res.json({ message: 'Todo deleted successfully' });
@@ -49,6 +50,17 @@ class TodoController {
       }
     } catch (error) {
       res.status(500).json({ message: 'Error deleting todo', error });
+    }
+  };
+
+  // Get user todos
+  getUserTodos = async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const todos = await TodoModel.findUserTask(userId);
+      res.json(todos);
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching user-specific todos', error });
     }
   };
 }
