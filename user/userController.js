@@ -1,4 +1,6 @@
+const jwt = require('jsonwebtoken');
 const userModel = require('./userModel');
+const SECRET_KEY = require;
 
 class UserController {
   registerNewUser = async (req, res) => {
@@ -17,7 +19,8 @@ class UserController {
       const { userId } = req.body;
       const user = await userModel.loginUser(userId);
       if (user) {
-        res.json({ message: 'Login Successful' });
+        const token = jwt.sign({ userId }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        res.json({ message: 'Login Successful', token });
       } else {
         res.status(400).json({ status: 'Login Failed', message: 'Invalid code' });
       }
