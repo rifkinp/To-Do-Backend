@@ -19,14 +19,13 @@ class UserController {
       const { userId } = req.body;
       const user = await userModel.loginUser(userId);
       if (user) {
-        const token = jwt.sign({ userId }, process.env.SECRET_KEY, { expiresIn: '1h' });
-        res.json({ message: 'Login Successful', token });
+        const token = jwt.sign({ userId: user.userId }, process.env.SECRET_KEY);
+        res.header('Authorization', token).json({ message: 'Login Successful', token });
       } else {
         res.status(400).json({ status: 'Login Failed', message: 'Invalid code' });
       }
     } catch (error) {
       res.status(500).json({ message: 'Error logging in', error });
-      console.log(error);
     }
   };
 }
